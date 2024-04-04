@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
 
 MY_APPS = [
     "todos.apps.TodosConfig",
+    "loginPage.apps.LoginpageConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
@@ -131,6 +132,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATIC_ROOT = BASE_DIR / "/static"
+
+STATICFILES_DIRS = [
+    "/var/www/static/",
+    BASE_DIR / "loginPage/static",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
