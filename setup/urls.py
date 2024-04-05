@@ -15,6 +15,6 @@ urlpatterns = [
     path("update/<int:pk>", TodoUpdateView.as_view(), name="todo_update"),
     path("delete/<int:pk>", TodoDeleteView.as_view(), name="todo_delete"),
     path("complete/<int:pk>", TodoCompleteView.as_view(), name="todo_complete"),
-    path("loginPage/", include('django.contrib.auth.urls')),
-    path("loginPage/", include('loginPage.urls')),
+    path("loginPage/", include("django.contrib.auth.urls")),
+    path("loginPage/", include("loginPage.urls")),
 ]
