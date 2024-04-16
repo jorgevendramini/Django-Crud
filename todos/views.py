@@ -5,41 +5,39 @@ from django.shortcuts import get_object_or_404, redirect
 from datetime import date
 from django.contrib.sessions.models import Session
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
 
-class TodoListView(ListView):
+class TodoListView(LoginRequiredMixin, ListView):
     model = Todo
 
     def get_queryset(self):
-        # Filter todos based on the user's session key
-        session_key = self.request.session.session_key
-        return Todo.objects.filter(session_key=session_key)
+        return Todo.objects.filter(user=self.request.user)
 
 
-class TodoCreateView(CreateView):
+class TodoCreateView(LoginRequiredMixin, CreateView):
     model = Todo
     fields = ["title", "deadline"]
     success_url = reverse_lazy("todo_list")
 
     def form_valid(self, form):
-        # Set the session key for the todo
-        form.instance.session_key = self.request.session.session_key
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
-class TodoUpdateView(UpdateView):
+class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
     fields = ["title", "deadline"]
     success_url = reverse_lazy("todo_list")
 
 
-class TodoDeleteView(DeleteView):
+class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
     success_url = reverse_lazy("todo_list")
 
 
-class TodoCompleteView(View):
+class TodoCompleteView(LoginRequiredMixin, View):
     def get(self, request, pk):
         todo = get_object_or_404(Todo, pk=pk)
         todo.finished_at = date.today()
