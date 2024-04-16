@@ -3,41 +3,61 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, V
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-from django.contrib.sessions.models import Session
-from django.utils import timezone
-from django.contrib.auth.mixins import LoginRequiredMixin
+import uuid
 
 # Create your views here.
 
 
-class TodoListView(LoginRequiredMixin, ListView):
+class TodoListView(ListView):
     model = Todo
 
     def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+        # Get the unique identifier from the cookie
+        user_identifier = self.request.COOKIES.get('user_identifier')
+
+        # Check if there are todos for this user identifier
+        if Todo.objects.filter(user_identifier=user_identifier).exists():
+            # Return existing todos
+            return Todo.objects.filter(user_identifier=user_identifier)
+        else:
+            # Create new todos for this user identifier
+            # You can customize this part based on your requirements
+            return Todo.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_identifier'] = self.request.COOKIES.get('user_identifier')
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        if 'user_identifier' not in self.request.COOKIES:
+            # Set a cookie for the user identifier if it doesn't exist
+            user_identifier = generate_user_identifier()
+            response.set_cookie('user_identifier', user_identifier)
+        return response
+
+def generate_user_identifier():
+    return str(uuid.uuid4())
 
 
-class TodoCreateView(LoginRequiredMixin, CreateView):
+class TodoCreateView(CreateView):
     model = Todo
     fields = ["title", "deadline"]
     success_url = reverse_lazy("todo_list")
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-class TodoUpdateView(LoginRequiredMixin, UpdateView):
+class TodoUpdateView(UpdateView):
     model = Todo
     fields = ["title", "deadline"]
     success_url = reverse_lazy("todo_list")
 
 
-class TodoDeleteView(LoginRequiredMixin, DeleteView):
+class TodoDeleteView(DeleteView):
     model = Todo
     success_url = reverse_lazy("todo_list")
 
 
-class TodoCompleteView(LoginRequiredMixin, View):
+class TodoCompleteView(View):
     def get(self, request, pk):
         todo = get_object_or_404(Todo, pk=pk)
         todo.finished_at = date.today()
