@@ -9,3 +9,7 @@ class Todo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     deadline = models.DateField(verbose_name="Data de entrega", null=False, blank=False)
     finished_at = models.DateField(null=True)
+    user_identifier = models.CharField(max_length=36, null=False, blank=False)  # UUID length is 36 characters
+
+    def __str__(self):
+        return self.title
