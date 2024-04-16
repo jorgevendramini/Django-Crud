@@ -7,5 +7,11 @@
     },
     "emmet.includeLanguages": {
         "django-html": "html"
-    }
+    },
+    "html.suggest.html5": true, // Enable HTML5 suggestions
+    "html.autoClosingTags": true, // Automatically close tags
+    "html.format.enable": true, // Enable HTML formatting
+    "html.format.indentInnerHtml": true, // Indent inner HTML
+    "html.format.wrapAttributes": "force-aligned", // Wrap attributes with alignment
+    "html.format.wrapLineLength": 120 // Specify line length for wrapping
 }

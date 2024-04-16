@@ -133,10 +133,10 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = "C:/Users/Aluno - 5/Django-Crud/staticfiles"
+STATIC_ROOT = "C:/Users/jorge/Django-Crud/staticfiles"
 
 STATICFILES_DIRS = [
-    "C:/Users/Aluno - 5/Django-Crud/static",
+    "C:/Users/jorge/Django-Crud/static",
 ]
 
 

@@ -3,7 +3,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, V
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from datetime import date
-import uuid
+from django import forms
 
 # Create your views here.
 
@@ -11,44 +11,26 @@ import uuid
 class TodoListView(ListView):
     model = Todo
 
-    def get_queryset(self):
-        # Get the unique identifier from the cookie
-        user_identifier = self.request.COOKIES.get('user_identifier')
 
-        # Check if there are todos for this user identifier
-        if Todo.objects.filter(user_identifier=user_identifier).exists():
-            # Return existing todos
-            return Todo.objects.filter(user_identifier=user_identifier)
-        else:
-            # Create new todos for this user identifier
-            # You can customize this part based on your requirements
-            return Todo.objects.none()
+class TodoForm(forms.ModelForm):
+    deadline = forms.DateField(
+        widget=forms.DateInput(format="%d/%m/%Y"), input_formats=["%d%m%Y", "%d/%m/%Y"]
+    )
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user_identifier'] = self.request.COOKIES.get('user_identifier')
-        return context
-
-    def render_to_response(self, context, **response_kwargs):
-        response = super().render_to_response(context, **response_kwargs)
-        if 'user_identifier' not in self.request.COOKIES:
-            # Set a cookie for the user identifier if it doesn't exist
-            user_identifier = generate_user_identifier()
-            response.set_cookie('user_identifier', user_identifier)
-        return response
-
-def generate_user_identifier():
-    return str(uuid.uuid4())
+    class Meta:
+        model = Todo
+        fields = ["title", "deadline"]
 
 
 class TodoCreateView(CreateView):
     model = Todo
-    fields = ["title", "deadline"]
+    form_class = TodoForm
     success_url = reverse_lazy("todo_list")
+
 
 class TodoUpdateView(UpdateView):
     model = Todo
-    fields = ["title", "deadline"]
+    form_class = TodoForm
     success_url = reverse_lazy("todo_list")
 
 
