@@ -1,0 +1,43 @@
+{% extends 'baselogin.html' %}
+
+{% load static %}
+
+
+
+{% block page_title %} Cadastrar {% endblock page_title %}
+
+{% block content %}
+
+  <section>
+    <div class="form-box">
+        <div class="form-value">
+            <form action="" method="POST">
+              {% csrf_token %}
+                <h2>Cadastrar</h2>
+                <div class="inputbox">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="text" name="username" required>
+                    <label for="">Usuário</label>
+                </div>
+                <div class="inputbox">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" name="email" required>
+                    <label for="">E-mail</label>
+                </div>
+                <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" name="senha" required>
+                    <label for="">Senha</label>
+                </div>
+                <div class="inputbox">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" name="confirmar_senha" required>
+                    <label for="">Confirmar Senha</label>
+                </div>
+                <input class="login" type="submit" value="Cadastrar conta">
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

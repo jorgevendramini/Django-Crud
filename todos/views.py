@@ -5,8 +5,6 @@ from django.shortcuts import get_object_or_404, redirect
 from datetime import date
 from django import forms
 
-# Create your views here.
-
 
 class TodoListView(ListView):
     model = Todo
