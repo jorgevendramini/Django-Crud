@@ -17,12 +17,12 @@ def login_user(request):
         if user is not None:
             auth.login(request, user)
             messages.success(request, "Welcome back!")
-            return redirect("/todos/todo_list")
+            return redirect("todo_list")
         else:
             messages.error(request, "Usuário ou senha incorretos")
             return redirect("/loginPage/login")
     else:
-        return render(request, "authenticate/login.html", {})
+        return render(request, "login.html", {})
 
 
 def register_user(request):
@@ -56,7 +56,7 @@ def register_user(request):
 
         try:
             User.objects.create_user(username=username, email=email, password=senha)
-            return redirect("/loginPage/login")
+            return redirect("loginPage/login_user")
         except:
             print("Erro 4")
             return redirect("/loginPage/register")

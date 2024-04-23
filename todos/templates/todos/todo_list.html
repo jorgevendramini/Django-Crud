@@ -5,7 +5,7 @@
 
 {% block content %}
 
-  {% if todo_list %}
+  {% if object_list %}
   <table class="table">
     <thead>
       <tr>
@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-    {% for todo in todo_list %}
+    {% for todo in object_list %}
         <tr>
         <th scope="row">{{ todo.pk }}</th>
         <td>{{ todo.title }}</td>

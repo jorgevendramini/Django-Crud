@@ -11,9 +11,17 @@
   <section>
     <div class="form-box">
         <div class="form-value">
-            <form action="" method="POST">
-              {% csrf_token %}
+            <form action="{% url "register_user" %}" method="POST">
+                {% if messages %}
+                    {% for message in messages %}
+                        <section class="alert {{message.tags}}">
+                            {{ message }}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+                {% csrf_token %}
                 <h2>Cadastrar</h2>
+                
                 <div class="inputbox">
                     <ion-icon name="mail-outline"></ion-icon>
                     <input type="text" name="username" required>
