@@ -1,5 +1,7 @@
 ## Django-Crud - Projeto Lista de Tarefas
 
+# Deploy at: www.jorgeenrique.pythonanywhere.com
+
 No que consite este projeto:
 - Criar uma lista de tarefas com o dia que foi listada
 - Poder editar, atualizar, finalizar e até deletar a tarefa
