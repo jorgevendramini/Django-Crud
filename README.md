@@ -1,6 +1,6 @@
 ## Django-Crud - Projeto Lista de Tarefas
 
-# Deploy at: www.jorgeenrique.pythonanywhere.com
+# Deploy at: https://jorgeenrique.pythonanywhere.com/
 
 No que consite este projeto:
 - Criar uma lista de tarefas com o dia que foi listada
